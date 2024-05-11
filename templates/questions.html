@@ -9,7 +9,8 @@
       <p class="center">You are currently logged in.</p>
 
       <div class="center">
-        <a href="/user/signout" class="btn btn--secondary">Sign Out</a>
+        <a href="{{ url_for('signout') }}" class="btn btn--secondary">Sign Out</a>
+
       </div>
 
       <h2 class="center">Your Info</h2>
@@ -70,7 +71,7 @@
         <button class="btn btn--secondary", "center" type="button" id="add_medication">Add a new medication</button>
       
         <div class="center">
-          <input type="submit" value="Submit" class="btn btn--secondary">
+          <input type="submit" id="submit_button" value="Submit" class="btn btn--secondary">
         </div>
       
     

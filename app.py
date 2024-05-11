@@ -1,7 +1,7 @@
 import os
 import pathlib
 import requests
-from flask import Flask, render_template, session, redirect, abort, request
+from flask import Flask, render_template, session, redirect, abort, request, jsonify
 from functools import wraps
 from google.oauth2 import id_token
 from google_auth_oauthlib.flow import Flow
@@ -52,7 +52,9 @@ def home():
 
 @app.route('/signout')
 def signout():
-  return render_template('home.html')
+    session.clear()
+    return render_template('home.html')
+
 
 @app.route('/login')
 def login_page():
@@ -107,6 +109,40 @@ def callback():
     
     
     return render_template('questions.html')
+  
+  
+
+@app.route('/submit_survey', methods=['POST'])
+@login_required
+def submit_survey():
+    survey_data = {
+        "name": request.form['name'],
+        "email": request.form['email'],
+        "age": request.form['age'],
+        "marital_status": request.form['marital_status'],
+        "other_marital_status": request.form.get('other_marital_status', ''),
+        "therapy": request.form['therapy'],
+        "medication": request.form['medication'],
+        "medication_details": request.form.getlist('medication_name[]')
+    }
+    # Check if there is an existing survey with the same email
+    existing_survey = app.db.survey.find_one({"email": survey_data['email']})
+    if existing_survey:
+        # Update the existing survey
+        app.db.survey.update_one({"email": survey_data['email']}, {"$set": survey_data})
+    else:
+        # Insert a new survey
+        app.db.survey.insert_one(survey_data)
+    return render_template('thanku.html')
+  
+@app.route('/check_survey', methods=['POST'])
+def check_survey():
+    email = request.form.get('email')
+    survey = app.db.survey.find_one({"email": email})
+    if survey:
+        return jsonify({"exists": True, "message": "Survey data already exists. Do you want to overwrite it?"})
+    return jsonify({"exists": False})
+  
 
 
 
