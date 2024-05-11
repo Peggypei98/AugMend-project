@@ -40,14 +40,8 @@ class User:
 
         return jsonify({"error": "Invalid login credentials"}), 401
     
-    def check_survey_exists(self, email):
-        survey = self.db.survey.find_one({"email": email})
-        if survey:
-            return jsonify({"exists": True, "message": "Survey data already exists. Do you want to overwrite it?"})
-        return jsonify({"exists": False})
+    
       
     
     
-      
-
       
