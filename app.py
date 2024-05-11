@@ -1,11 +1,7 @@
 import os
 import pathlib
-import requests
-from flask import Flask, render_template, session, redirect, abort, request, jsonify
-from google.oauth2 import id_token
+from flask import Flask, render_template, session, redirect, request
 from google_auth_oauthlib.flow import Flow
-from pip._vendor import cachecontrol
-import google.auth.transport.requests
 import pymongo
 
 # Configurations
