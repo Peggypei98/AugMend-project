@@ -1,6 +1,87 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>questions</h1>
+  <div class="card-wrapper">
+
+    <div class="card">
+
+      <h1 class="center">Status</h1>
+      <p class="center">You are currently logged in.</p>
+
+      <div class="center">
+        <a href="/user/signout" class="btn btn--secondary">Sign Out</a>
+      </div>
+
+      <h2 class="center">Your Info</h2>
+
+      <p>
+
+        <strong>Name:</strong> {{ session['user']['name'] }}<br>
+        <strong>Email:</strong> {{ session['user']['email'] }}
+      </p>
+    
+    </div>
+
+    <div class="card">
+      <h1 class="center">Questionnaire</h1>
+
+      <form id="survey_form" method="POST" action="/submit_survey">
+        <div>
+          <label for="name">Name:</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+      
+        <div>
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+      
+        <div>
+          <label for="age">What is your age?</label>
+          <input type="number" id="age" name="age" required>
+        </div>
+      
+        <div>
+          <label for="marital_status">Marital Status:</label>
+          <select id="marital_status" name="marital_status">
+            <option value="Single">Single</option>
+            <option value="Married">Married</option>
+            <option value="Widowed">Widowed</option>
+            <option value="Other">Other</option>
+          </select>
+          <input type="text" id="other_marital_status" name="other_marital_status" placeholder="Please specify" style="display: none;">
+        </div>
+      
+        <div>
+          <label>Have you ever seen a therapist for mental health issues?</label>
+          <input type="radio" id="therapy_yes" name="therapy" value="Yes"> Yes
+          <input type="radio" id="therapy_no" name="therapy" value="No"> No
+        </div>
+      
+        <div>
+          <label>Are you taking any medications?</label>
+          <input type="radio" id="med_yes" name="medication" value="Yes"> Yes
+          <input type="radio" id="med_no" name="medication" value="No"> No
+          <div id="medication_details" style="display: none;">
+            <input type="text" name="medication_name[]" placeholder="Medication Name">
+          </div>
+        </div>
+      
+        <button class="btn btn--secondary", "center" type="button" id="add_medication">Add a new medication</button>
+      
+        <div class="center">
+          <input type="submit" value="Submit" class="btn btn--secondary">
+        </div>
+      
+    
+      </form>
+
+
+    
+    </div>
+
   
+    
+  
+  </div>
 {% endblock %}
